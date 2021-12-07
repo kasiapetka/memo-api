@@ -20,22 +20,7 @@ passport.deserializeUser((id, done) => {
 passport.use(new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
     const user = await User.findOne({ email: email });
     if (user?.length === 0) {
-
-        try {
-            const newUser = new User({ email, password });
-            bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(newUser.password, salt, async (err, hash) => {
-                    if (err) throw err;
-                    newUser.password = hash;
-                    await newUser.save(function (err, user) {
-                        return done(null, user);
-                    });
-                })
-            })
-        } catch (err) {
-            return done(null, false, { message: err })
-        }
-
+        return done(null, false, { message: "no user found" });
     } else {
         try {
             bcrypt.compare(password, user.password, (err, isMatch) => {

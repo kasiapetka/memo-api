@@ -19,19 +19,21 @@ passport.deserializeUser((id, done) => {
 
 passport.use(new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
     const user = await User.findOne({ email: email });
-    if (user?.length === 0) {
+    if (!user || user?.length === 0) {
         return done(null, false, { message: "no user found" });
     } else {
         try {
+            console.log("weew")
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (err) return done(null, false, { message: err });
                 if (isMatch) {
                     return done(null, user);
+                } else {
+                   done(null, false, { message: "wrong password" });
                 }
             })
         } catch (err) {
-            return done(null, false, { message: err })
-
+            return done(null, false, { message: "error" })
         }
     }
 }))

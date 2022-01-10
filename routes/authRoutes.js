@@ -16,7 +16,7 @@ module.exports = app => {
                 return res.status(400).json({ errors: err })
             }
             if (!user) {
-                return res.status(400).json({ errors: "no user found" })
+                return res.status(400).json({ errors: info })
             }
             req.logIn(user, function (err) {
                 if (err) {

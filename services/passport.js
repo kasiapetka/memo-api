@@ -29,7 +29,7 @@ passport.use(new LocalStrategy({ usernameField: "email" }, async (email, passwor
                 if (isMatch) {
                     return done(null, user);
                 } else {
-                   done(null, false, { message: "wrong password" });
+                    done(null, false, { message: "wrong password" });
                 }
             })
         } catch (err) {
